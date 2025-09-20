@@ -1,9 +1,7 @@
 # SecureShift
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/ozcanpng/SecureShift/refs/heads/main/web/uploads/SecureShift.png" alt="SecureShift Logo" width="300">
 </p>
-
 <p align="center">
   <a href="https://hub.docker.com/r/ozcanpng/secureshift">
     <img src="https://img.shields.io/badge/Docker-SecureShift-blue?logo=docker" alt="Docker">
@@ -20,23 +18,24 @@ SecureShift is a web application security training platform designed for educati
 
 ## Features
 
-- **SQL Injection** - Database manipulation vulnerabilities
-- **Cross-Site Scripting (XSS)** - Stored, reflected, and DOM-based XSS
-- **Cross-Site Request Forgery (CSRF)** - Unauthorized request execution
-- **Command Injection** - OS command execution vulnerabilities
-- **Path Traversal** - Directory traversal attacks
-- **File Upload** - Insecure file upload handling
-- **JWT Bypass** - Token manipulation vulnerabilities
-- **IDOR** - Insecure direct object references
-- **SSRF** - Server-side request forgery
-- **XXE** - XML external entity injection
-- **Template Injection** - Server-side template injection
-- **Insecure Deserialization** - Object deserialization flaws
+* SQL Injection (SQLi)
+* Cross-Site Scripting (XSS)
+* Cross Site Request Forgery (CSRF)
+* DOM-based Vulnerabilities (DOM XSS)
+* OS Command Injection
+* Path Traversal
+* Insecure Deserialization
+* Information Disclosure
+* File Upload Vulnerabilities
+* JWT (JSON Web Token) Bypass
+* Insecure Direct Object Reference (IDOR)
+* Server-Side Request Forgery (SSRF)
+* Server-Side Template Injection (SSTI)
+* XML External Entity (XXE)
 
 ## Quick Start
 
 ### Using Docker
-
 ```bash
 # Pull and run the container
 docker pull ozcanpng/secureshift
@@ -47,7 +46,6 @@ open http://localhost:3000
 ```
 
 ### From Source
-
 ```bash
 # Clone the repository
 git clone https://github.com/ozcanpng/SecureShift.git
@@ -56,22 +54,35 @@ cd SecureShift
 # Install dependencies
 go mod tidy
 
-# Run the application
+# Run the application (secure mode by default)
 go run cmd/server/main.go
+
+# Or run in insecure mode for vulnerability discovery
+MODE=insecure go run cmd/server/main.go
+
+# Or run in secure mode explicitly
+MODE=secure go run cmd/server/main.go
 
 # Access the application
 open http://localhost:3000
 ```
 
-## Default Login
+## Operating Modes
 
+SecureShift operates in two modes:
+
+- **Secure Mode** (default): Vulnerabilities are patched for learning purposes
+- **Insecure Mode**: Contains intentional vulnerabilities for security testing
+
+You can switch between modes using the `MODE` environment variable. If you discover vulnerabilities in secure mode, please report them - this helps improve the platform's security.
+
+## Default Login
 ```
 Username: darlene
 Password: darlene321
 ```
 
 ## Docker Commands
-
 ```bash
 # Pull image
 docker pull ozcanpng/secureshift
@@ -93,7 +104,6 @@ docker logs secureshift
 ```
 
 ## Build from Source
-
 ```bash
 # Clone repository
 git clone https://github.com/ozcanpng/SecureShift.git
@@ -105,12 +115,14 @@ go mod download
 # Build application
 go build -o secureshift cmd/server/main.go
 
-# Run binary
+# Run binary (secure mode)
 ./secureshift
+
+# Run binary (insecure mode)
+MODE=insecure ./secureshift
 ```
 
 ## Project Structure
-
 ```
 SecureShift/
 ├── cmd/server/main.go     # Application entry point
@@ -125,10 +137,6 @@ SecureShift/
 
 For detailed vulnerability explanations and exploitation examples, see:
 [SecureShift PoC Report](./SecureShift-PoC-EN/SecureShift-PoC-EN.md)
-
-## Security Warning
-
-**This application contains intentional security vulnerabilities and should only be used for educational purposes in isolated environments. Do not deploy in production.**
 
 ## License
 
