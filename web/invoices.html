@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Faturalarım – TechShop</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-dark bg-dark shadow">
+  <div class="container">
+    <a class="navbar-brand" href="/dashboard.html">
+      <i class="fas fa-shopping-cart me-2"></i>TechShop Mağazası
+    </a>
+    <span class="navbar-text text-white-50">Faturalarım</span>
+  </div>
+</nav>
+
+<div class="container py-4">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title mb-4">
+            <i class="fas fa-file-invoice-dollar text-primary me-2"></i>
+            Fatura Arşivim
+          </h5>
+          <p class="text-muted mb-4">Geçmiş alışverişlerinizin faturalarına buradan ulaşabilirsiniz.</p>
+          
+          <!-- Dinamik fatura listesi buraya gelecek -->
+          <div id="invoice-list" class="list-group"></div>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <div class="alert alert-info" role="alert">
+          <i class="fas fa-info-circle me-2"></i>
+          <strong>Bilgi:</strong> Faturalarınız PDF formatında saklanır ve 5 yıl boyunca arşivlenir.
+        </div>
+      </div>
+      
+      <div class="mt-3 text-muted small text-center">
+        <i class="fas fa-shield-alt me-1"></i>
+        Bu sayfa güvenli bağlantı ile korunmaktadır.
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="bg-dark text-light py-3 mt-5">
+  <div class="container text-center">
+    <small>&copy; 2024 TechShop Mağazası. Tüm hakları saklıdır.</small>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+async function loadInvoices() {
+  try {
+    // Backend'den kullanıcının faturalarını al
+    const resp = await fetch("/api/invoices");
+    const data = await resp.json();
+    const invoices = data.invoices || [];
+
+    const list = document.getElementById("invoice-list");
+    list.innerHTML = "";
+
+    if (invoices.length > 0) {
+      invoices.forEach(invoice => {
+        const item = document.createElement("div");
+        item.className = "list-group-item d-flex justify-content-between align-items-center";
+        item.innerHTML = `
+          <div class="me-auto">
+            <h6 class="mb-1">${invoice.title}</h6>
+          </div>
+          <a class="btn btn-outline-primary btn-sm" href="/downloadFile?invoiceID=${invoice.id}" target="_blank">
+            <i class="fas fa-eye me-1"></i>Faturayı Görüntüle
+          </a>
+        `;
+        list.appendChild(item);
+      });
+    } else {
+      list.innerHTML = "<div class='list-group-item text-muted'>Bu kullanıcıya ait fatura bulunamadı.</div>";
+    }
+  } catch (err) {
+    console.error("Faturalar yüklenirken hata:", err);
+    document.getElementById("invoice-list").innerHTML = 
+      "<div class='list-group-item text-muted'>Faturalar yüklenirken hata oluştu.</div>";
+  }
+}
+
+loadInvoices();
+</script>
+</body>
+</html>

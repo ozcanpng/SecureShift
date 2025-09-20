@@ -1,0 +1,234 @@
+<!-- profile.html -->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profilim</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+    .avatar { width: 128px; height:128px; border-radius:50%; object-fit:cover; border:3px solid #eee; }
+    .small-muted { font-size:.9rem; color:#6c757d; }
+    .code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+  </style>
+</head>
+<body class="bg-light">
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/dashboard.html"><i class="fas fa-user"></i> Profil</a>
+      <a class="btn btn-outline-light" href="/logout">Çıkış</a>
+    </div>
+  </nav>
+
+  <div class="container my-5">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-body text-center">
+            <img id="avatarImg" src="/uploads/default-avatar.png" class="avatar mb-3" alt="Avatar">
+            <div class="mb-2 text-muted"><small>Avatarı değiştirmek için dosya seçin</small></div>
+            <form id="avatarForm" action="/profile" method="POST" enctype="multipart/form-data">
+              <input type="file" class="form-control mb-2" name="avatar" accept="*/*">
+              <input type="hidden" name="firstname" id="fnHidden">
+              <input type="hidden" name="lastname" id="lnHidden">
+              <input type="hidden" name="city" id="cityHidden">
+              <button class="btn btn-primary w-100" type="submit">Yükle & Kaydet</button>
+            </form>
+            <div class="mt-3">
+              <a href="/dashboard.html" class="btn btn-link">⬅ Panele dön</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- URL'den avatar yükleme (SSRF Demo) -->
+        <div class="card shadow-sm mt-4">
+          <div class="card-body">
+            <h6 class="card-title"><i class="fa-solid fa-link"></i> URL'den Yükle</h6>
+            <form id="urlAvatarForm">
+              <div class="mb-2">
+                <label class="form-label">Resim/URL</label>
+                <input type="url" class="form-control" id="avatarUrl" placeholder="https://example.com/image.jpg" required>
+              </div>
+              <button class="btn btn-outline-primary w-100" type="submit">URL'den Yükle</button>
+              <div id="urlAvatarStatus" class="mt-2 small-muted"></div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-md-8">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="mb-3">Kişisel Bilgiler</h5>
+            <form id="profileForm">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">İsim</label>
+                  <input type="text" class="form-control" id="firstname" placeholder="Ad">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Soyisim</label>
+                  <input type="text" class="form-control" id="lastname" placeholder="Soyad">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Şehir</label>
+                  <input type="text" class="form-control" id="city" placeholder="Şehir">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-success">Kaydet</button>
+              <span id="status" class="ms-2 text-muted"></span>
+            </form>
+
+            <hr>
+
+            <!-- Şifre Değiştir -->
+            <div class="card mt-4 bg-light">
+              <div class="card-body">
+                <h6 class="card-title text-warning"><i class="fas fa-lock"></i> Şifre Değiştir</h6>
+                <form id="passwordForm">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Yeni Şifre</label>
+                      <input type="password" class="form-control" id="newPassword" placeholder="Yeni şifrenizi girin">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Şifre Tekrarı</label>
+                      <input type="password" class="form-control" id="confirmPassword" placeholder="Şifrenizi tekrar girin">
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-warning">Şifreyi Güncelle</button>
+                  <span id="passwordStatus" class="ms-2 text-muted"></span>
+                </form>
+                <div class="mt-2">
+                  <small class="text-muted">
+                    <i class="fas fa-info-circle"></i>
+                    Insecure modda bu endpoint CSRF'e açıktır (GET de kabul edilir). Secure modda şifreler bcrypt ile saklanır.
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <hr>
+            <div class="alert alert-info mt-3">
+              <strong>Not:</strong> Insecure modda dosya türü/uzantı kontrolü yapılmaz. Yüklenen dosyalar
+              <code>/uploads</code> altında statik olarak erişilebilir olur.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+(async () => {
+  // mevcut veriyi çek
+  let resp = await fetch('/api/profile');
+  if (!resp.ok) {
+    location.href = '/index.html';
+    return;
+  }
+  const data = await resp.json();
+  document.getElementById('firstname').value = data.firstname || '';
+  document.getElementById('lastname').value  = data.lastname  || '';
+  document.getElementById('city').value      = data.city      || '';
+  if (data.avatar) {
+    document.getElementById('avatarImg').src = '/' + String(data.avatar).replace(/^\//,'');
+  }
+
+  // yalnız metin alanlarını kaydetmek istersek
+  document.getElementById('profileForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData();
+    fd.append('firstname', document.getElementById('firstname').value);
+    fd.append('lastname',  document.getElementById('lastname').value);
+    fd.append('city',      document.getElementById('city').value);
+    const r = await fetch('/profile', { method:'POST', body: fd });
+    document.getElementById('status').textContent = r.ok ? 'Kaydedildi' : 'Hata';
+    if (r.redirected) location.href = r.url;
+  });
+
+  // avatar formuna metin alanlarını gizli inputlarla bas
+  const syncHidden = () => {
+    document.getElementById('fnHidden').value   = document.getElementById('firstname').value;
+    document.getElementById('lnHidden').value   = document.getElementById('lastname').value;
+    document.getElementById('cityHidden').value = document.getElementById('city').value;
+  };
+  document.getElementById('avatarForm').addEventListener('submit', syncHidden);
+
+  // şifre değiştirme formu
+  document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const newPass = document.getElementById('newPassword').value;
+    const confirmPass = document.getElementById('confirmPassword').value;
+
+    if (!newPass) {
+      document.getElementById('passwordStatus').textContent = 'Şifre boş olamaz';
+      document.getElementById('passwordStatus').className = 'ms-2 text-danger';
+      return;
+    }
+    if (newPass !== confirmPass) {
+      document.getElementById('passwordStatus').textContent = 'Şifreler eşleşmiyor';
+      document.getElementById('passwordStatus').className = 'ms-2 text-danger';
+      return;
+    }
+
+    const body = new URLSearchParams();
+    body.append('password', newPass);
+
+    const r = await fetch('/api/password-reset', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body.toString()
+    });
+
+    if (r.ok) {
+      document.getElementById('passwordStatus').textContent = 'Şifre güncellendi';
+      document.getElementById('passwordStatus').className = 'ms-2 text-success';
+      document.getElementById('newPassword').value = '';
+      document.getElementById('confirmPassword').value = '';
+    } else {
+      document.getElementById('passwordStatus').textContent = 'Şifre güncellenemedi';
+      document.getElementById('passwordStatus').className = 'ms-2 text-danger';
+    }
+  });
+
+  // === URL'den avatar (SSRF demo) ===
+  document.getElementById('urlAvatarForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const url = document.getElementById('avatarUrl').value.trim();
+    if (!url) return;
+
+    const payload = { url };
+    const r = await fetch('/api/avatar-from-url', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    let txt = '';
+    try {
+      const js = await r.json();
+      if (js.error) {
+        txt = `Hata: ${js.error}`;
+      } else {
+        txt = `Durum: ${js.http_status || r.status} | Mod: ${js.mode || '-'} | Tür: ${js.content_type || '-'} | Boyut: ${js.size || 0}B`;
+        if (js.avatar) {
+          document.getElementById('avatarImg').src = '/' + String(js.avatar).replace(/^\//,'') + `?t=${Date.now()}`;
+          txt += ` | Avatar: /${js.avatar}`;
+        }
+        if (js.redirected_to) {
+          txt += ` | Redirect: ${js.redirected_to}`;
+        }
+      }
+    } catch (e) {
+      txt = 'Beklenmeyen yanıt';
+    }
+    document.getElementById('urlAvatarStatus').textContent = txt;
+  });
+
+})();
+</script>
+</body>
+</html>

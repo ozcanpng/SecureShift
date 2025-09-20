@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechShop - En İyi Teknoloji Ürünleri</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    .card-img-top {
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      transition: transform 0.2s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .hero-section {
+      background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+      padding: 4rem 0;
+    }
+    
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.8rem;
+    }
+    
+    .price {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #dc3545;
+    }
+    
+    .old-price {
+      text-decoration: line-through;
+      color: #6c757d;
+      font-size: 1rem;
+    }
+    
+    .discount-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #dc3545;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+    
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(45deg, #007bff, #6610f2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      margin: 0 auto 15px;
+    }
+    
+    .testimonial-card {
+      background: #f8f9fa;
+      border-left: 4px solid #007bff;
+      padding: 20px;
+      margin: 15px 0;
+    }
+    
+    .cart-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #dc3545;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">
+        <i class="fas fa-shopping-cart"></i> TechShop
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="index.html">Ana Sayfa</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="products.html">Tüm Ürünler</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">Hakkımızda</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="search.html">
+              <i class="fas fa-search"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link position-relative" href="cart.html">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="cart-badge">3</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="profile.html">
+              <i class="fas fa-user"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="login.html">Giriş</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero-section text-white text-center">
+    <div class="container">
+      <h1 class="display-4 mb-3">En İyi Teknoloji Ürünleri</h1>
+      
+      <!-- imza -->
+      <p class="mb-3">
+        <a href="https://github.com/ozcanpng" target="_blank" 
+          class="fw-bold text-white text-decoration-none" 
+          style="font-family: 'JetBrains Mono', monospace; font-size: 0.95rem;">
+          made by ozcanpng
+        </a>
+      </p>
+      
+      <p class="lead mb-4">Son teknoloji ürünlerini en uygun fiyatlarla keşfedin</p>
+      <a href="products.html" class="btn btn-light btn-lg">
+        <i class="fas fa-shopping-bag"></i> Alışverişe Başla
+      </a>
+    </div>
+  </header>
+
+
+  <!-- Features -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 text-center mb-4">
+          <div class="feature-icon">
+            <i class="fas fa-shipping-fast fa-2x"></i>
+          </div>
+          <h5>Hızlı Kargo</h5>
+          <p class="text-muted">Aynı gün kargo imkanı</p>
+        </div>
+        <div class="col-md-4 text-center mb-4">
+          <div class="feature-icon">
+            <i class="fas fa-shield-alt fa-2x"></i>
+          </div>
+          <h5>Güvenli Alışveriş</h5>
+          <p class="text-muted">SSL sertifikası ile korumalı</p>
+        </div>
+        <div class="col-md-4 text-center mb-4">
+          <div class="feature-icon">
+            <i class="fas fa-headset fa-2x"></i>
+          </div>
+          <h5>7/24 Destek</h5>
+          <p class="text-muted">Canlı destek hizmeti</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <h2 class="text-center mb-5">Öne Çıkan Ürünler</h2>
+      <div class="row g-4">
+        
+        <!-- Product 1 -->
+        <div class="col-lg-3 col-md-6">
+          <div class="card h-100 position-relative">
+            <span class="discount-badge">-20%</span>
+            <img src="https://m.media-amazon.com/images/I/61IRRQ2gWPL._AC_SL1280_.jpg" class="card-img-top" alt="Laptop">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">Lenovo Thinkpad</h5>
+              <p class="card-text flex-grow-1">Intel i7, RTX 4070, 16GB RAM, 1TB SSD</p>
+              <div class="mb-2">
+                <span class="old-price">₺45.999</span>
+                <div class="price">₺36.799</div>
+              </div>
+              <div class="mb-2">
+                <span class="text-warning">
+                  ★★★★★
+                </span>
+                <small class="text-muted">(234 değerlendirme)</small>
+              </div>
+              <div class="d-grid gap-2">
+                <a href="product-detail.html?id=1" class="btn btn-primary">İncele</a>
+                <button class="btn btn-outline-success btn-sm">
+                  <i class="fas fa-cart-plus"></i> Sepete Ekle
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="col-lg-3 col-md-6">
+          <div class="card h-100 position-relative">
+            <span class="discount-badge">-15%</span>
+            <img src="https://cdn.vatanbilgisayar.com/Upload/PRODUCT/apple/thumb/1-248_large.jpg" class="card-img-top" alt="iPhone">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">iPhone 15 Pro Max</h5>
+              <p class="card-text flex-grow-1">256GB, Titanium Blue</p>
+              <div class="mb-2">
+                <span class="old-price">₺89.999</span>
+                <div class="price">₺76.499</div>
+              </div>
+              <div class="mb-2">
+                <span class="text-warning">
+                  ★★★★★
+                </span>
+                <small class="text-muted">(567 değerlendirme)</small>
+              </div>
+              <div class="d-grid gap-2">
+                <a href="product-detail.html?id=2" class="btn btn-primary">İncele</a>
+                <button class="btn btn-outline-success btn-sm">
+                  <i class="fas fa-cart-plus"></i> Sepete Ekle
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="col-lg-3 col-md-6">
+          <div class="card h-100">
+            <img src="https://ideacdn.net/shop/dn/82/myassets/products/787/logitech-g502-lightspeed-rgb-16k-mekanik-kablosuz-gaming-mouse-910-005568.jpg" class="card-img-top" alt="Gaming Mouse">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">Logitech Gaming Mouse</h5>
+              <p class="card-text flex-grow-1">RGB, 16K DPI, Kablosuz</p>
+              <div class="mb-2">
+                <div class="price">₺2.899</div>
+              </div>
+              <div class="mb-2">
+                <span class="text-warning">
+                  ★★★★☆
+                </span>
+                <small class="text-muted">(189 değerlendirme)</small>
+              </div>
+              <div class="d-grid gap-2">
+                <a href="product-detail.html?id=3" class="btn btn-primary">İncele</a>
+                <button class="btn btn-outline-success btn-sm">
+                  <i class="fas fa-cart-plus"></i> Sepete Ekle
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="col-lg-3 col-md-6">
+          <div class="card h-100 position-relative">
+            <span class="discount-badge">-25%</span>
+            <img src="https://row.hyperx.com/cdn/shop/files/hyperx_cloud_alpha_wireless_1_main.jpg" class="card-img-top" alt="HyperX Cloud Alpha">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">HyperX Cloud Alpha</h5>
+              <p class="card-text flex-grow-1">7.1 Surround, RGB, Kablosuz</p>
+              <div class="mb-2">
+                <span class="old-price">₺3.999</span>
+                <div class="price">₺2.999</div>
+              </div>
+              <div class="mb-2">
+                <span class="text-warning">
+                  ★★★★★
+                </span>
+                <small class="text-muted">(412 değerlendirme)</small>
+              </div>
+              <div class="d-grid gap-2">
+                <a href="product-detail.html?id=4" class="btn btn-primary">İncele</a>
+                <button class="btn btn-outline-success btn-sm">
+                  <i class="fas fa-cart-plus"></i> Sepete Ekle
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Customer Reviews -->
+  <section class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-5">Müşteri Yorumları</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="testimonial-card">
+            <div class="mb-2">
+              <strong>Ahmet K.</strong>
+              <span class="text-warning ms-2">★★★★★</span>
+            </div>
+            <p>"Harika bir alışveriş deneyimi yaşadım. Ürünler çok kaliteli ve kargo çok hızlı geldi."</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="testimonial-card">
+            <div class="mb-2">
+              <strong>Elif M.</strong>
+              <span class="text-warning ms-2">★★★★★</span>
+            </div>
+            <p>"Müşteri hizmetleri çok ilgili. Sorunum hemen çözüldü. Kesinlikle tekrar alışveriş yapacağım."</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="testimonial-card">
+            <div class="mb-2">
+              <strong>Can Y.</strong>
+              <span class="text-warning ms-2">★★★★☆</span>
+            </div>
+            <p>"Fiyatlar uygun, ürün çeşitliliği çok iyi. Websitesi de çok kullanışlı."</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="py-5 bg-primary text-white">
+    <div class="container text-center">
+      <h3>Fırsatları Kaçırma!</h3>
+      <p class="mb-4">E-bültenimize üye ol, özel indirimlerden ilk sen haberdar ol</p>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="input-group">
+            <input type="email" class="form-control" placeholder="E-mail adresiniz">
+            <button class="btn btn-light" type="button">
+              <i class="fas fa-paper-plane"></i> Üye Ol
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white py-4">
+    <div class="container text-center">
+      <h5><i class="fas fa-shopping-cart"></i> TechShop</h5>
+      <p class="mb-2">Türkiye'nin en güvenilir teknoloji mağazası.<br>2015'ten beri kaliteli hizmet.</p>
+      <div class="social-links mb-3">
+        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
+      </div>
+      <hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
+      <p class="mb-0 small">© 2025 TechShop. Tüm hakları saklıdır.</p>
+    </div>
+  </footer>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+</html>

